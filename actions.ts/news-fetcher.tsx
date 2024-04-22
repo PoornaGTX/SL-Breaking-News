@@ -8,7 +8,7 @@ export const newsFetcher = async () => {
 
   try {
     const response = await axios.get(baseUrl);
-    console.log('Response:', response.data); // Log the response data
+    console.log('Response:', response.data);
     const $ = Cheerio.load(response.data);
 
     const allNews: newsType[] = [];
@@ -17,8 +17,11 @@ export const newsFetcher = async () => {
       const headline = $(element).find('h2').text().trim();
       const description = $(element).find('p').text().trim();
       const imageURL = $(element).find('img').attr('src');
+      const hrefLink = $(element).find('a').attr('href');
 
-      allNews.push({ headline, description, imageURL });
+      const completeUrl = hrefLink ? new URL(hrefLink, baseUrl).href : '';
+
+      allNews.push({ headline, description, imageURL, hrefLink: completeUrl });
     });
 
     console.log('All news:', allNews); // Log the fetched news
