@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
+import NavBar from '@/components/NavBar';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -18,10 +19,18 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <div>
-          <div className="w-full bg-neutral-300 h-16 top-0 sticky flex justify-center items-center">
+          <div className="flex flex-col w-full bg-neutral-300 h-16 top-0 sticky  justify-center items-center">
             <h2 className="text-4xl text-center text-red-600 font-bold">SL Breaking News </h2>
+            <div className="animate-marquee whitespace-nowrap ">
+              <span className="mx-4 text-lg">Ada Derana</span>
+              <span className="mx-4 text-lg">Hiru Tv</span>
+              <span className="mx-4 text-lg">Swarnavahini </span>
+              <span className="mx-4 text-lg">ITN</span>
+            </div>
           </div>
-          {children}
+          <NavBar />
+
+          <div className="flex min-h-screen max-w-7xl mx-auto flex-col items-center justify-between mt-9">{children}</div>
         </div>
       </body>
     </html>

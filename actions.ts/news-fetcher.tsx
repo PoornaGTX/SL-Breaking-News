@@ -8,7 +8,6 @@ export const newsFetcher = async () => {
 
   try {
     const response = await axios.get(baseUrl);
-    console.log('Response:', response.data);
     const $ = Cheerio.load(response.data);
 
     const allNews: newsType[] = [];
@@ -23,9 +22,34 @@ export const newsFetcher = async () => {
 
       allNews.push({ headline, description, imageURL, hrefLink: completeUrl });
     });
-
-    console.log('All news:', allNews); // Log the fetched news
     return allNews;
+  } catch (error) {
+    console.error('Error scraping page:', error);
+    return [];
+  }
+};
+
+export const newsFetcherHiruNews = async () => {
+  const baseUrl = 'https://www.hirunews.lk/local-news.php?pageID=1';
+
+  try {
+    const response = await axios.get(baseUrl);
+    const $ = Cheerio.load(response.data);
+
+    const allNewsHiruTV: newsType[] = [];
+
+    $('.trending-section .row').each((index, element) => {
+      const headline = $(element).find('img').attr('alt');
+      // const description = $(element).find('p').text().trim();
+      const imageURL = $(element).find('img').attr('src');
+      const hrefLink = $(element).find('a').attr('href');
+
+      const completeUrl = hrefLink ? new URL(hrefLink, baseUrl).href : '';
+
+      allNewsHiruTV.push({ headline, imageURL, hrefLink: completeUrl });
+    });
+
+    return allNewsHiruTV;
   } catch (error) {
     console.error('Error scraping page:', error);
     return [];

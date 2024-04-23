@@ -1,15 +1,14 @@
 'use client';
-import { newsFetcher } from '@/actions.ts/news-fetcher';
-import NewsCard from '@/components/NewsCard';
-import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { newsType } from '@/util/type';
+import { newsFetcherHiruNews } from '@/actions.ts/news-fetcher';
+import NewsCard from '@/components/NewsCardHiru';
 
-export default function Home() {
+const page = () => {
   const [newsData, setNewsData] = useState([]);
 
   useEffect(() => {
-    newsFetcher()
+    newsFetcherHiruNews()
       .then((data: any) => {
         setNewsData(data);
       })
@@ -19,12 +18,14 @@ export default function Home() {
   }, []);
 
   return (
-    <main>
+    <div>
       <div className="grid md:grid-cols-2 md:gap-x-28 md:gap-y-5">
         {newsData.map((item: newsType, index) => (
           <NewsCard news={item} />
         ))}
       </div>
-    </main>
+    </div>
   );
-}
+};
+
+export default page;
